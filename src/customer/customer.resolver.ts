@@ -3,11 +3,11 @@ import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
 import { CustomerEntity, CustomerInput } from './model/customer.model';
 
-@Resolver('Customer')
+@Resolver((of) => CustomerEntity)
 export class CustomerResolver {
   constructor(private readonly customerService: CustomerService) {}
 
-  @Query((returns) => CustomerEntity)
+  @Query(() => CustomerEntity)
   async customer(@Args('id', { type: () => ID }) id: string) {
     return this.customerService.getCustomerById(id);
   }
