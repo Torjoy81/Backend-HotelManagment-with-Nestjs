@@ -1,0 +1,32 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CustomerEntity {
+  email: String!
+  firstName: String!
+  id: ID!
+  image: String
+  lastName: String!
+  password: String!
+  phone: String!
+}
+
+input CustomerInput {
+  email: String!
+  firstName: String!
+  id: ID
+  image: String
+  lastName: String!
+  password: String!
+  phone: String!
+}
+
+type Mutation {
+  createCustomer(customer: CustomerInput!): CustomerEntity!
+}
+
+type Query {
+  customer(id: ID!): CustomerEntity!
+  hello: String!
+}

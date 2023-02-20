@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName String 
+  email String @unique
+  phone String @unique
+  address String?
+  password String
+}
+
+model Customer{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName String 
+  email String @unique
+  phone String @unique
+  image Bytes?
+  customer_status Customer_Type?
+  booking Booking[]
+  review CustomerReviewRate[]
+  password String
+}
+
+
+
+model Hotel{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  hotel_name String
+  address String
+  imageUrl String
+  HotelStatus Hotel_Star
+  rooms Room[]
+  hotel_facilities Hotel_Service[]
+}
+  
+
+model Room{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  room_type Room_Type
+  room_number Int
+  description String
+  imageUrl String[]
+  pricePerDay Float
+  hotel_id String @db.ObjectId
+  hotel Hotel @relation(fields: [hotel_id],references: [id])
+  room_service Room_Facilities[]
+  booking Booking[]
+}
+
+model Booking{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  check_in_date DateTime
+  check_out_date DateTime
+  room_id String @db.ObjectId
+  room Room @relation(fields: [room_id],references: [id])
+  customer_id String @db.ObjectId
+  customer Customer @relation(fields: [customer_id],references: [id])
+  review CustomerReviewRate[]
+}
+
+model CustomerReviewRate{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  booking_id String @db.ObjectId
+  booking Booking @relation(fields: [booking_id],references: [id])
+  customer_id String @db.ObjectId
+  customer Customer @relation(fields: [customer_id],references: [id])
+  review_rate Int
+  comment String 
+}
+
+enum Room_Facilities{
+  SEA_VIEW
+  PRIVATE_BATHROOM
+  BALCONY
+  KITCHEN
+  SHOWER
+  AIR_CONDITON
+  TV
+  COFFEE_MAKER
+  REFRIGERATOR
+  TABLE
+  SOFA
+}
+
+enum Hotel_Service{
+  SPA_FACILITIES
+  SAUNA
+  FITNESS_CENTER
+  SWIMMING_POOL
+  LIVE_MUSIC_PERFORMANCE
+  INDOOR_POOL
+  CYCLING
+  HIKING
+  NEAR_SEA
+  NEAR_MOUNTAIN
+  MORNING_BUFFET
+  RESTAURANT
+  PARKING
+}
+
+enum Room_Type{
+  SINGLE_BAD
+  DOUBLE_BAD
+}
+
+enum Hotel_Star{
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+enum Customer_Type{
+  NORMAL
+  GOLD
+  DIAMOND
+}
