@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Customer, Customer_Type } from '@prisma/client';
 import { PrismaCliService } from 'src/prisma-cli/prisma-cli.service';
+import * as argon from 'argon2';
 import { CustomerInput } from './model/customer.model';
 
 @Injectable()
@@ -17,16 +18,31 @@ export class CustomerService {
   }
 
   async createCustomer(customerObj: CustomerInput) {
+    const passHash = await argon.hash(customerObj.password, {
+      memoryCost: 2 ** 16,
+      hashLength: 50,
+      timeCost: 20,
+      parallelism: 5,
+    });
+
     const user = await this.prisma.customer.create({
       data: {
         firstName: customerObj.firstName,
         lastName: customerObj.lastName,
         email: customerObj.email,
         phone: customerObj.phone,
-        password: customerObj.password,
+        Hashedpassword: passHash,
         customer_status: Customer_Type.NORMAL,
       },
     });
     return user;
+  }
+
+  async customerEmailAuth(Email: string): Promise<Customer> | undefined {
+    return this.prisma.customer.findUnique({
+      where: {
+        email: Email,
+      },
+    });
   }
 }

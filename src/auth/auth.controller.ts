@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { CustomerEmailAuth } from 'src/customer/dto/get-customer.args';
 import { AuthService } from './auth.service';
 
 type Register = {
@@ -11,10 +12,14 @@ type Register = {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signup')
-  signup(@Body() dto: Register) {
+  @Post('signin')
+  async signup(@Body() dto: CustomerEmailAuth) {
     console.log(dto);
 
-    return { ...dto };
+    const user = await this.authService.validateCustomer(
+      dto.email,
+      dto.password,
+    );
+    return this.authService.login(user);
   }
 }

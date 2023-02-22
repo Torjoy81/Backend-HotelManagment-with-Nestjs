@@ -31,7 +31,7 @@ model Customer{
   customer_status Customer_Type?
   booking Booking[]
   review CustomerReviewRate[]
-  password String
+  Hashedpassword String
 }
 
 

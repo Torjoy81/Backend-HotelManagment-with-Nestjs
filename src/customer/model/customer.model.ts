@@ -20,15 +20,15 @@ export class CustomerEntity {
   @Field()
   email: string;
   @Field()
-  firstName: String;
+  firstName: string;
   @Field()
-  lastName: String;
+  lastName: string;
   @Field()
-  phone: String;
+  phone: string;
   @Field((type) => String, { nullable: true })
-  image?: String | null;
+  image?: string | null;
   @Field()
-  password: String;
+  password: string;
 }
 
 @InputType()

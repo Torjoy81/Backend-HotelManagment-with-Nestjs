@@ -2,7 +2,7 @@ import { ArgsType, Field } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @ArgsType()
-export class getCustomerArgs {
+export class GetCustomerArgs {
   @Field()
   @IsNotEmpty()
   @IsEmail()
@@ -21,4 +21,13 @@ export class getCustomerArgs {
   @Field()
   @IsNotEmpty()
   password: String;
+}
+
+export class CustomerEmailAuth {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
 }

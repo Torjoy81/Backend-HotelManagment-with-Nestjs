@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { PrismaCliService } from './prisma-cli/prisma-cli.service';
 import { PrismaCliModule } from './prisma-cli/prisma-cli.module';
@@ -11,6 +12,7 @@ import { HotelInfoModule } from './hotel-info/hotel-info.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     AuthModule,
     PrismaCliModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
