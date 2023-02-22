@@ -15,11 +15,44 @@ type CustomerEntity {
 input CustomerInput {
   email: String!
   firstName: String!
-  id: ID
   image: String
   lastName: String!
   password: String!
   phone: String!
+}
+
+enum HOTELSERVICE {
+  CYCLING
+  FITNESS_CENTER
+  HIKING
+  INDOOR_POOL
+  LIVE_MUSIC_PERFORMANCE
+  MORNING_BUFFET
+  NEAR_MOUNTAIN
+  NEAR_SEA
+  PARKING
+  RESTAURANT
+  SAUNA
+  SPA_FACILITIES
+  SWIMMING_POOL
+}
+
+type Hotel {
+  HotelStatus: HotelStatus!
+  address: String!
+  hotel_facilities: [HOTELSERVICE!]!
+  hotel_name: String!
+  id: ID!
+  imageUrl: String
+  rooms: [Room!]!
+}
+
+enum HotelStatus {
+  FIVE
+  FOUR
+  ONE
+  THREE
+  TWO
 }
 
 type Mutation {
@@ -28,5 +61,32 @@ type Mutation {
 
 type Query {
   customer(id: ID!): CustomerEntity!
-  hello: String!
+  hotel(id: ID!): Hotel!
+  room(id: ID!): Room!
+}
+
+enum ROOMSERVICE {
+  AIR_CONDITON
+  BALCONY
+  COFFEE_MAKER
+  KITCHEN
+  PRIVATE_BATHROOM
+  REFRIGERATOR
+  SEA_VIEW
+  SHOWER
+  SOFA
+  TABLE
+  TV
+}
+
+type Room {
+  description: String!
+  hotel_id: ID!
+  hotel_info: Hotel!
+  id: ID!
+  imageUrl: [String!]
+  pricePerDay: Float!
+  room_number: Int!
+  room_service: [ROOMSERVICE!]!
+  room_type: String!
 }

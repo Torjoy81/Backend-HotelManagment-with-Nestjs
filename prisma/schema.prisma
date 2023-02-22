@@ -40,7 +40,7 @@ model Hotel{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   hotel_name String
   address String
-  imageUrl String
+  imageUrl String?
   HotelStatus Hotel_Star
   rooms Room[]
   hotel_facilities Hotel_Service[]
@@ -52,7 +52,7 @@ model Room{
   room_type Room_Type
   room_number Int
   description String
-  imageUrl String[]
+  imageUrl String[] @default([])
   pricePerDay Float
   hotel_id String @db.ObjectId
   hotel Hotel @relation(fields: [hotel_id],references: [id])
@@ -112,8 +112,9 @@ enum Hotel_Service{
 }
 
 enum Room_Type{
-  SINGLE_BAD
-  DOUBLE_BAD
+  SINGLE_BED
+  DOUBLE_BED
+  KING_SIZE_BED
 }
 
 enum Hotel_Star{
