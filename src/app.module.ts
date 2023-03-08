@@ -9,7 +9,6 @@ import { join } from 'path';
 import { RoomInfoModule } from './room-info/room-info.module';
 import { CustomerModule } from './customer/customer.module';
 import { HotelInfoModule } from './hotel-info/hotel-info.module';
-import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -20,12 +19,10 @@ import { BookingModule } from './booking/booking.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema/schema.gql'),
       sortSchema: true,
-      context: ({ req }) => ({ headers: req.headers }),
     }),
     RoomInfoModule,
     CustomerModule,
     HotelInfoModule,
-    BookingModule,
   ],
   providers: [PrismaCliService],
 })

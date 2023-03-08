@@ -38,6 +38,21 @@ export class CustomerService {
     return user;
   }
 
+  async updateCustomer(Id: string, key: string, value: string) {
+    const user = await this.prisma.customer.update({
+      where: {
+        id: Id,
+      },
+      data: {
+        [key]: value,
+      },
+    });
+
+    console.log(user);
+
+    return user;
+  }
+
   async customerEmailAuth(Email: string): Promise<Customer> | undefined {
     return this.prisma.customer.findUnique({
       where: {

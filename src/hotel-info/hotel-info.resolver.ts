@@ -29,4 +29,6 @@ export class HotelInfoResolver {
 
     return Object.values(rooms)[0];
   }
+
+  
 }

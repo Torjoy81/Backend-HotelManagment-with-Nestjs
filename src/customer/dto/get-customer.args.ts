@@ -1,5 +1,6 @@
 import { ArgsType, Field } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Stream } from 'stream';
 
 @ArgsType()
 export class GetCustomerArgs {
@@ -30,4 +31,11 @@ export class CustomerEmailAuth {
 
   @IsNotEmpty()
   password: string;
+}
+
+export interface FileUpload {
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream: () => Stream;
 }

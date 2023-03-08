@@ -1,11 +1,11 @@
 import { Field, ObjectType, ID, InputType } from '@nestjs/graphql';
+import { GraphQLUpload } from 'graphql-upload-ts';
+import { FileUpload } from '../dto/get-customer.args';
 import {
   IsAlpha,
   IsEmail,
   IsNotEmpty,
-  IsNumberString,
   IsOptional,
-  IsPhoneNumber,
   Length,
   Matches,
   MaxLength,
@@ -77,9 +77,9 @@ export class CustomerInput {
     message: 'please start with +49 or 01',
   })
   phone: string;
-  @Field((type) => String, { nullable: true })
+  @Field((type) => GraphQLUpload, { nullable: true })
   @IsOptional()
-  image?: string | null;
+  image?: Promise<FileUpload>;
   @Field()
   @IsNotEmpty()
   password: string;

@@ -1,5 +1,4 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
 import { CustomerEntity, CustomerInput } from './model/customer.model';
 
@@ -15,5 +14,14 @@ export class CustomerResolver {
   @Mutation(() => CustomerEntity)
   createCustomer(@Args('customer') customer: CustomerInput) {
     return this.customerService.createCustomer(customer);
+  }
+
+  @Mutation(() => CustomerEntity)
+  async updateCustomer(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('key') key: string,
+    @Args('value') value: string,
+  ) {
+    return this.customerService.updateCustomer(id, key, value);
   }
 }
