@@ -8,7 +8,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { RolesGuard } from 'src/auth/gqlauth.guard';
 import { HotelInfoService } from 'src/hotel-info/hotel-info.service';
 import { Room } from './model/room.model';
 import { RoomInfoService } from './room-info.service';
@@ -20,13 +19,7 @@ export class RoomInfoResolver {
     private readonly hotelInfoService: HotelInfoService,
   ) {}
   @Query(() => Room)
-  @UseGuards(RolesGuard)
-  async room(
-    @Args('id', { type: () => ID }) id: string,
-    @Context('auth') auth: any,
-  ) {
-    console.log('Context' + auth);
-
+  async room(@Args('id', { type: () => ID }) id: string) {
     return this.roomInfoService.getRoomById(id);
   }
 

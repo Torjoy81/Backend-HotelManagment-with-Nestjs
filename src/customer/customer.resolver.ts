@@ -1,6 +1,7 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CustomerService } from './customer.service';
 import { CustomerEntity, CustomerInput } from './model/customer.model';
+import { createWriteStream } from 'fs';
 
 @Resolver((of) => CustomerEntity)
 export class CustomerResolver {
@@ -12,8 +13,23 @@ export class CustomerResolver {
   }
 
   @Mutation(() => CustomerEntity)
-  createCustomer(@Args('customer') customer: CustomerInput) {
-    return this.customerService.createCustomer(customer);
+  async createCustomer(@Args('customer') customer: CustomerInput) {
+    const { createReadStream, filename } = await customer.image;
+
+    console.log(customer.image);
+
+    // return new Promise(async (resolve, reject) =>
+    //   createReadStream().pipe(
+    //     createWriteStream(join(process.cwd(), `./src/upload/${filename}`))
+    //       .on('finish', () => resolve(true))
+    //       .on('error', () => reject(false)),
+    //   ),
+    // );
+    const cu1 = await this.customerService.createCustomer(customer);
+    console.log(cu1);
+    return {
+      id: cu1.id,
+    };
   }
 
   @Mutation(() => CustomerEntity)

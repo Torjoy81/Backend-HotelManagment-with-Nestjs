@@ -33,8 +33,10 @@ export class CustomerService {
         phone: customerObj.phone,
         Hashedpassword: passHash,
         customer_status: Customer_Type.NORMAL,
+        image: null,
       },
     });
+
     return user;
   }
 
@@ -47,8 +49,6 @@ export class CustomerService {
         [key]: value,
       },
     });
-
-    console.log(user);
 
     return user;
   }

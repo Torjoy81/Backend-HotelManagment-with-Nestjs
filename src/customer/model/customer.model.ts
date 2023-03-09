@@ -1,6 +1,6 @@
 import { Field, ObjectType, ID, InputType } from '@nestjs/graphql';
-import { GraphQLUpload } from 'graphql-upload-ts';
-import { FileUpload } from '../dto/get-customer.args';
+import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
+
 import {
   IsAlpha,
   IsEmail,
@@ -12,6 +12,7 @@ import {
   MinLength,
   ValidationArguments,
 } from 'class-validator';
+import { FileUpload } from '../dto/get-customer.args';
 
 @ObjectType()
 export class CustomerEntity {
