@@ -3,6 +3,8 @@ import { Customer, Customer_Type } from '@prisma/client';
 import { PrismaCliService } from 'src/prisma-cli/prisma-cli.service';
 import * as argon from 'argon2';
 import { CustomerInput } from './model/customer.model';
+import { createWriteStream } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class CustomerService {
@@ -25,6 +27,21 @@ export class CustomerService {
       parallelism: 5,
     });
 
+    let imagePath = null;
+
+    if (customerObj.image !== null) {
+      const { createReadStream, filename } = await customerObj.image;
+
+      createReadStream()
+        .pipe(
+          createWriteStream(join(process.cwd(), `./src/images/${filename}`)),
+        )
+        .on('finish', () => {
+          imagePath = join(process.cwd(), `./src/images/${filename}`);
+        })
+        .on('error', (e) => console.log('Something is worng ' + e));
+    }
+
     const user = await this.prisma.customer.create({
       data: {
         firstName: customerObj.firstName,
@@ -33,7 +50,7 @@ export class CustomerService {
         phone: customerObj.phone,
         Hashedpassword: passHash,
         customer_status: Customer_Type.NORMAL,
-        image: null,
+        image: imagePath,
       },
     });
 
