@@ -57,6 +57,7 @@ enum HotelStatus {
 
 type Mutation {
   createCustomer(customer: CustomerInput!): CustomerEntity!
+  deleteRoom(id: ID!): Boolean!
   updateCustomer(id: ID!, key: String!, value: String!): CustomerEntity!
 }
 
@@ -64,6 +65,7 @@ type Query {
   customer(id: ID!): CustomerEntity!
   hotel(id: ID!): Hotel!
   room(id: ID!): Room!
+  rooms: [Room!]!
 }
 
 enum ROOMSERVICE {

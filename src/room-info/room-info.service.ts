@@ -27,4 +27,30 @@ export class RoomInfoService {
 
     return result;
   }
+
+  async getAllrooms(keys: string[]) {
+    const obj = {};
+
+    keys.forEach((value) => {
+      obj[value] = true;
+    });
+    const result = await this.prisma.room.findMany({
+      select: obj,
+    });
+    return result;
+  }
+
+  deleteTheRoom(ID: string): boolean {
+    const deleteRoom = this.prisma.room.delete({
+      where: {
+        id: ID,
+      },
+    });
+    if (deleteRoom) {
+      console.log(deleteRoom);
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

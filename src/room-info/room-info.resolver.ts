@@ -3,6 +3,8 @@ import {
   Args,
   Context,
   ID,
+  Info,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -27,5 +29,21 @@ export class RoomInfoResolver {
   async hotel_info(@Parent() room: Room) {
     const { hotel_id } = room;
     return this.hotelInfoService.getHotelById(hotel_id);
+  }
+
+  @Query(() => [Room])
+  async rooms(@Info() info) {
+    let keys = info.fieldNodes[0].selectionSet.selections.map(
+      (item) => item.name.value,
+    );
+
+    return this.roomInfoService.getAllrooms(keys);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteRoom(
+    @Args('id', { type: () => ID }) id: string,
+  ): Promise<boolean> {
+    return this.roomInfoService.deleteTheRoom(id);
   }
 }
