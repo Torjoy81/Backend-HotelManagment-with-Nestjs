@@ -53,4 +53,14 @@ export class RoomInfoService {
       return false;
     }
   }
+
+  async updateRoomInfo(ID, Obj_room_update) {
+    const room = this.prisma.room.updateMany({
+      where: {
+        id: ID,
+      },
+      data: Obj_room_update,
+    });
+    return room;
+  }
 }

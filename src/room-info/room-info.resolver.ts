@@ -1,4 +1,3 @@
-import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Context,
@@ -11,7 +10,7 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { HotelInfoService } from 'src/hotel-info/hotel-info.service';
-import { Room } from './model/room.model';
+import { Room, Room_updateInput } from './model/room.model';
 import { RoomInfoService } from './room-info.service';
 
 @Resolver((of) => Room)
@@ -45,5 +44,14 @@ export class RoomInfoResolver {
     @Args('id', { type: () => ID }) id: string,
   ): Promise<boolean> {
     return this.roomInfoService.deleteTheRoom(id);
+  }
+
+  @Mutation(() => Room)
+  update_room_info(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('updateRoomInfo')
+    updateRoom: Room_updateInput,
+  ) {
+    return this.roomInfoService.updateRoomInfo(id, updateRoom);
   }
 }
